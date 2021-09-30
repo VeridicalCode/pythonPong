@@ -1,2 +1,2 @@
 # pythonPong
-python pong demo
+python pong demo as taught by freeCodeCamp.org
