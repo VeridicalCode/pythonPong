@@ -11,9 +11,11 @@ import turtle
 pongWindow = turtle.Screen()
 pongWindow.title("Pong by VeridicalQ")
 pongWindow.bgcolor("black")
-pongWindow.setup(width=800, height=600) # coordinate-based; center will be 0,0, goes to +/-400, 300
+pongWindow.setup(width=800, height=600)
 pongWindow.tracer(False) # 'tracing' shows the turtle's movement; if false, screen will never update by itself
 pongWindow.colormode(255) # so we can screw around with paddle colors
+pongWindow.listen() # listen for keypress
+
 
 # ====== OBJECTS =======
 
@@ -21,7 +23,7 @@ pongWindow.colormode(255) # so we can screw around with paddle colors
 paddleL = turtle.Turtle() # every screen element is a new specific object of the Turtle() class
 paddleL.speed(0) # update speed set to max
 paddleL.shape("square")
-paddleL.shapesize(stretch_wid=5, stretch_len=1) # counterintuitively, this makes it 5x taller
+paddleL.shapesize(stretch_wid=5, stretch_len=1) # counterintuitively, this makes it 5x taller, since default facing is ->
 paddleL.color("white")
 paddleL.penup() # don't draw, just move
 paddleL.goto(-350, 0) #start location
@@ -33,7 +35,7 @@ paddleR.shape("square")
 paddleR.shapesize(stretch_wid=5, stretch_len=1)
 paddleR.color("white")
 paddleR.penup()
-paddleR.goto(350, 0)
+paddleR.goto(350, 0) # 0,0 is center of screen
 
 # ball
 ball = turtle.Turtle()
@@ -47,14 +49,37 @@ ball.goto(0,0) # unnecessary, but we are thorough here
 # ====== FUNCTIONS =======
 
 # left paddle up
+def paddleL_up():
+  y = paddleL.ycor()  # get current position
+  y += 20             # can be adjusted to alter movement speed
+  paddleL.sety(y)
 
 # left paddle down
+def paddleL_down():
+  y = paddleL.ycor()
+  y -= 20
+  paddleL.sety(y)
 
 # right paddle up
+def paddleR_up():
+  y = paddleR.ycor()
+  y += 20
+  paddleR.sety(y)
 
 # right paddle down
+def paddleR_down():
+  y = paddleR.ycor()
+  y -= 20
+  paddleR.sety(y)
 
+# ====== KEYBINDS =======
 
+# left side
+pongWindow.onkeypress(paddleL_up, "w")
+pongWindow.onkeypress(paddleL_down, "s")
+# right side
+pongWindow.onkeypress(paddleR_up, "Up")
+pongWindow.onkeypress(paddleR_down, "Down")
 
 # ====== CORE GAME LOOP =======
 
