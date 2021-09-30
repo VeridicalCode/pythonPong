@@ -15,12 +15,14 @@ pongWindow.setup(width=800, height=600) # coordinate-based; center will be 0,0, 
 pongWindow.tracer(False) # 'tracing' shows the turtle's movement; if false, screen will never update by itself
 pongWindow.colormode(255) # so we can screw around with paddle colors
 
+# ====== OBJECTS =======
+
 # left paddle
 paddleL = turtle.Turtle() # every screen element is a new specific object of the Turtle() class
 paddleL.speed(0) # update speed set to max
 paddleL.shape("square")
 paddleL.shapesize(stretch_wid=5, stretch_len=1) # counterintuitively, this makes it 5x taller
-paddleL.color(75, 169, 209) # teal because why not
+paddleL.color("white")
 paddleL.penup() # don't draw, just move
 paddleL.goto(-350, 0) #start location
 
@@ -29,7 +31,7 @@ paddleR = turtle.Turtle()
 paddleR.speed(0)
 paddleR.shape("square")
 paddleR.shapesize(stretch_wid=5, stretch_len=1)
-paddleR.color(169, 0, 252) # fuschia
+paddleR.color("white")
 paddleR.penup()
 paddleR.goto(350, 0)
 
@@ -37,10 +39,24 @@ paddleR.goto(350, 0)
 ball = turtle.Turtle()
 ball.speed(0)
 ball.shape("turtle") # it's pyPong with turtle, the ball's gotta be a turtle
-ball.color("white") # 40, 135, 15 is a nice green if we wanna go there
+ball.color(40, 135, 15) # turtles are green!
 ball.tilt(90) # turtle facing up
-paddleR.penup()
+ball.penup()
+ball.goto(0,0) # unnecessary, but we are thorough here
 
-# core game loop to put it all together
+# ====== FUNCTIONS =======
+
+# left paddle up
+
+# left paddle down
+
+# right paddle up
+
+# right paddle down
+
+
+
+# ====== CORE GAME LOOP =======
+
 while True:
   pongWindow.update() # we set tracer false so we do manual updates
