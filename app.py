@@ -14,9 +14,16 @@ pongWindow.bgcolor("black")
 pongWindow.setup(width=800, height=600) # coordinate-based; center will be 0,0, goes to +/-400, 300
 pongWindow.tracer(False) # 'tracing' shows the turtle's movement; if false, screen will never update by itself
 
-# paddle A
+# left paddle
+paddleL = turtle.Turtle() # every screen element is a new specific object of the Turtle() class
+paddleL.speed(0) # update speed set to max
+paddleL.shape("square")
+paddleL.color("white")
+paddleL.penup() # don't draw, just move
+paddleL.goto(-350, 0) #start location
 
-# paddle B
+# right paddle
+paddleR = turtle.Turtle()
 
 # ball
 
