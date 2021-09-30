@@ -18,12 +18,19 @@ pongWindow.tracer(False) # 'tracing' shows the turtle's movement; if false, scre
 paddleL = turtle.Turtle() # every screen element is a new specific object of the Turtle() class
 paddleL.speed(0) # update speed set to max
 paddleL.shape("square")
-paddleL.color("white")
+paddleL.shapesize(stretch_wid=5, stretch_len=1) # counterintuitively, this makes it 5x taller
+paddleL.color("teal") # because why not
 paddleL.penup() # don't draw, just move
 paddleL.goto(-350, 0) #start location
 
 # right paddle
 paddleR = turtle.Turtle()
+paddleR.speed(0)
+paddleR.shape("square")
+paddleR.shapesize(stretch_wid=5, stretch_len=1)
+paddleR.color("purple") # fuschia 169, 0, 252
+paddleR.penup()
+paddleR.goto(350, 0)
 
 # ball
 
