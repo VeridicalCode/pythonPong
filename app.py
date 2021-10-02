@@ -1,41 +1,38 @@
 # super simple pong game to demo basic GUI programming and turtle
 # by VeridicalQ
 
-# call the built-in canvas library
-# this thing used to just be a little turtle guy that ran around the screen leaving a line behind
-# you steered it with math
-# plus ça change eh?
+# call the built-in canvas library and the built-in RNG
 import turtle
+import random
 
 # create a canvas and give it some basic paramaters
-pongWindow = turtle.Screen()
-pongWindow.title("Pong by VeridicalQ")
-pongWindow.bgcolor("black")
-pongWindow.setup(width=800, height=600)
-pongWindow.tracer(False) # 'tracing' shows the turtle's movement; if false, screen will never update by itself
-pongWindow.colormode(255) # so we can screw around with paddle colors
-pongWindow.listen() # listen for keypress
-
+pong_Window = turtle.Screen()
+pong_Window.title("Pong by VeridicalQ")
+pong_Window.bgcolor("black")
+pong_Window.setup(width=800, height=600)
+pong_Window.tracer(False) # 'tracing' shows the turtle's movement; if false, screen will never update by itself
+pong_Window.colormode(255) # so we can screw around with paddle colors
+pong_Window.listen() # listen for keypress
 
 # ====== OBJECTS =======
 
 # left paddle
-paddleL = turtle.Turtle() # every screen element is a new specific object of the Turtle() class
-paddleL.speed(0) # update speed set to max
-paddleL.shape("square")
-paddleL.shapesize(stretch_wid=5, stretch_len=1) # counterintuitively, this makes it 5x taller, since default facing is ->
-paddleL.color("white")
-paddleL.penup() # don't draw, just move
-paddleL.goto(-350, 0) #start location
+paddle_L = turtle.Turtle() # every screen element is a new specific object of the Turtle() class
+paddle_L.speed(0) # update speed set to max
+paddle_L.shape("square")
+paddle_L.shapesize(stretch_wid=5, stretch_len=1) # counterintuitively, this makes it 5x taller, since default facing is ->
+paddle_L.color("white")
+paddle_L.penup() # don't draw, just move
+paddle_L.goto(-350, 0) #start location
 
 # right paddle
-paddleR = turtle.Turtle()
-paddleR.speed(0)
-paddleR.shape("square")
-paddleR.shapesize(stretch_wid=5, stretch_len=1)
-paddleR.color("white")
-paddleR.penup()
-paddleR.goto(350, 0) # 0,0 is center of screen
+paddle_R = turtle.Turtle()
+paddle_R.speed(0)
+paddle_R.shape("square")
+paddle_R.shapesize(stretch_wid=5, stretch_len=1)
+paddle_R.color("white")
+paddle_R.penup()
+paddle_R.goto(350, 0) # 0,0 is center of screen
 
 # ball
 ball = turtle.Turtle()
@@ -44,7 +41,7 @@ ball.shape("turtle") # it's pyPong with turtle, the ball's gotta be a turtle
 ball.color(40, 135, 15) # turtles are green!
 ball.tilt(90) # turtle facing up
 ball.penup()
-ball.goto(0,0) # unnecessary, but we are thorough here
+ball.goto(0,0) # safety check
 ball.dx = 0.1  # "speed" is update speed, delta[coordinate] is actual movement speed (in pixels)
 ball.dy = 0.1  # an appropriate number will depend on processing power, so adjust this until ball movement is comfortable
           # TODO: we could add a "difficulty" prompt at game launch that sets ball speed
@@ -52,43 +49,50 @@ ball.dy = 0.1  # an appropriate number will depend on processing power, so adjus
 # ====== FUNCTIONS =======
 
 # left paddle up
-def paddleL_up():
-  y = paddleL.ycor()  # get current position
+def paddle_L_up():
+  y = paddle_L.ycor()  # get current position
   y += 20             # can be adjusted to alter movement speed
-  paddleL.sety(y)
+  paddle_L.sety(y)
 
 # left paddle down
-def paddleL_down():
-  y = paddleL.ycor()
+def paddle_L_down():
+  y = paddle_L.ycor()
   y -= 20
-  paddleL.sety(y)
+  paddle_L.sety(y)
 
 # right paddle up
-def paddleR_up():
-  y = paddleR.ycor()
+def paddle_R_up():
+  y = paddle_R.ycor()
   y += 20
-  paddleR.sety(y)
+  paddle_R.sety(y)
 
 # right paddle down
-def paddleR_down():
-  y = paddleR.ycor()
+def paddle_R_down():
+  y = paddle_R.ycor()
   y -= 20
-  paddleR.sety(y)
+  paddle_R.sety(y)
+
+# randomize ball travel direction
+def randomize_aim():
+  if random.randint(0, 1) == 0:
+    return 1
+  else:
+    return -1
 
 # ====== KEYBINDS =======
 
 # left side
-pongWindow.onkeypress(paddleL_up, "w")
-pongWindow.onkeypress(paddleL_down, "s")
+pong_Window.onkeypress(paddle_L_up, "w")
+pong_Window.onkeypress(paddle_L_down, "s")
 # right side
-pongWindow.onkeypress(paddleR_up, "Up")
-pongWindow.onkeypress(paddleR_down, "Down")
+pong_Window.onkeypress(paddle_R_up, "Up")
+pong_Window.onkeypress(paddle_R_down, "Down")
 # note both sides won't be able to move at the same time
 
 # ====== CORE GAME LOOP =======
 
 while True:
-  pongWindow.update() # we set tracer false so we do manual updates
+  pong_Window.update() # we set tracer false so we do manual updates
 
   # ball movement
   ball.setx(ball.xcor() + ball.dx)
@@ -104,8 +108,12 @@ while True:
 
   # point checking. currently there's no score tracking, but we're not using an OR in case we want to add it
   if ball.xcor() > 360: # point to left player
-    ball.setx(0)
-    ball.sety(0)
+    ball.goto(0,0)
+    ball.dx *= randomize_aim()
+    ball.dy *= randomize_aim()
+    print(ball.dx, ball.dy)
   if ball.xcor() < -360: # point to right player
-    ball.setx(0)
-    ball.sety(0)
+    ball.goto(0,0)
+    ball.dx *= randomize_aim()
+    ball.dy *= randomize_aim()
+    print(ball.dx, ball.dy)
