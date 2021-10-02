@@ -45,6 +45,9 @@ ball.color(40, 135, 15) # turtles are green!
 ball.tilt(90) # turtle facing up
 ball.penup()
 ball.goto(0,0) # unnecessary, but we are thorough here
+ball.dx = 0.1  # "speed" is update speed, delta[coordinate] is actual movement speed (in pixels)
+ball.dy = 0.1  # an appropriate number will depend on processing power, so adjust this until ball movement is comfortable
+          # TODO: we could add a "difficulty" prompt at game launch that sets ball speed
 
 # ====== FUNCTIONS =======
 
@@ -80,8 +83,29 @@ pongWindow.onkeypress(paddleL_down, "s")
 # right side
 pongWindow.onkeypress(paddleR_up, "Up")
 pongWindow.onkeypress(paddleR_down, "Down")
+# note both sides won't be able to move at the same time
 
 # ====== CORE GAME LOOP =======
 
 while True:
   pongWindow.update() # we set tracer false so we do manual updates
+
+  # ball movement
+  ball.setx(ball.xcor() + ball.dx)
+  ball.sety(ball.ycor() + ball.dy)
+
+  # border collision
+  if ball.ycor() > 290:
+    ball.sety(290) # safety check
+    ball.dy *= -1 # reverse movement
+  if ball.ycor() < -290:
+    ball.sety(-290)
+    ball.dy *= -1
+
+  # point checking. currently there's no score tracking, but we're not using an OR in case we want to add it
+  if ball.xcor() > 360: # point to left player
+    ball.setx(0)
+    ball.sety(0)
+  if ball.xcor() < -360: # point to right player
+    ball.setx(0)
+    ball.sety(0)
