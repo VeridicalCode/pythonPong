@@ -11,7 +11,7 @@ pong_Window.title("Pong by VeridicalQ")
 pong_Window.bgcolor("black")
 pong_Window.setup(width=800, height=600)
 pong_Window.tracer(False) # 'tracing' shows the turtle's movement; if false, screen will never update by itself
-pong_Window.colormode(255) # so we can screw around with paddle colors
+pong_Window.colormode(255) # so we can make the turtle green
 pong_Window.listen() # listen for keypress
 
 # ====== OBJECTS =======
@@ -107,12 +107,14 @@ while True:
     ball.dy *= -1
 
   # point checking. currently there's no score tracking, but we're not using an OR in case we want to add it
-  if ball.xcor() > 360: # point to left player
+  # off right side, point to left player
+  if ball.xcor() > 360:
     ball.goto(0,0)
     ball.dx *= randomize_aim()
     ball.dy *= randomize_aim()
     print(ball.dx, ball.dy)
-  if ball.xcor() < -360: # point to right player
+  # off left side, point to right player
+  if ball.xcor() < -360:
     ball.goto(0,0)
     ball.dx *= randomize_aim()
     ball.dy *= randomize_aim()
