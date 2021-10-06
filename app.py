@@ -108,14 +108,22 @@ while True:
 
   # point checking. currently there's no score tracking, but we're not using an OR in case we want to add it
   # off right side, point to left player
-  if ball.xcor() > 360:
+  if ball.xcor() > 370:
     ball.goto(0,0)
     ball.dx *= randomize_aim()
     ball.dy *= randomize_aim()
     print(ball.dx, ball.dy)
   # off left side, point to right player
-  if ball.xcor() < -360:
+  if ball.xcor() < -370:
     ball.goto(0,0)
     ball.dx *= randomize_aim()
     ball.dy *= randomize_aim()
     print(ball.dx, ball.dy)
+
+  # paddle collision checking. paddles are 10 pixels wide and 50 pixels tall
+  # hit right side paddle
+  if ball.xcor() > 340 and ball.ycor() <= paddle_R.ycor() + 50 and ball.ycor() >= paddle_R.ycor() -50:
+    ball.dx *= -1
+
+  if ball.xcor() < -340 and ball.ycor() <= paddle_L.ycor() + 50 and ball.ycor() >= paddle_L.ycor() -50:
+    ball.dx *= -1
