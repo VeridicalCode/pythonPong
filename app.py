@@ -88,6 +88,7 @@ pong_Window.onkeypress(paddle_L_down, "s")
 pong_Window.onkeypress(paddle_R_up, "Up")
 pong_Window.onkeypress(paddle_R_down, "Down")
 # note both sides won't be able to move at the same time
+# TODO: sanity check to keep paddles from going offscreen
 
 # ====== CORE GAME LOOP =======
 
