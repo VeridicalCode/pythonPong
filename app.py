@@ -88,7 +88,6 @@ pong_Window.onkeypress(paddle_L_down, "s")
 pong_Window.onkeypress(paddle_R_up, "Up")
 pong_Window.onkeypress(paddle_R_down, "Down")
 # note both sides won't be able to move at the same time
-# TODO: sanity check to keep paddles from going offscreen
 
 # ====== CORE GAME LOOP =======
 
@@ -99,13 +98,23 @@ while True:
   ball.setx(ball.xcor() + ball.dx)
   ball.sety(ball.ycor() + ball.dy)
 
-  # border collision
+  # ball border collision
   if ball.ycor() > 290:
     ball.sety(290) # safety check
     ball.dy *= -1 # reverse movement
   if ball.ycor() < -290:
     ball.sety(-290)
     ball.dy *= -1
+
+  # paddle border collision
+  if paddle_R.ycor() > 290:
+    paddle_R.sety(285) # just push it down a little
+  if paddle_R.ycor() < -290:
+    paddle_R.sety(-285)
+  if paddle_L.ycor() > 290:
+    paddle_L.sety(285) # just push it down a little
+  if paddle_L.ycor() < -290:
+    paddle_L.sety(-285)
 
   # point checking. currently there's no score tracking, but we're not using an OR in case we want to add it
   # off right side, point to left player
