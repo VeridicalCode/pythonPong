@@ -5,7 +5,13 @@
 import turtle
 import random
 
-# create a canvas and give it some basic paramaters
+# variables for tracking player scores, ball speed
+score_L = 0
+score_R = 0
+ball_delta = 0.1
+
+# ====== OBJECTS =======
+# the window itself, first: create a canvas and give it some basic paramaters
 pong_Window = turtle.Screen()
 pong_Window.title("Pong by VeridicalQ")
 pong_Window.bgcolor("black")
@@ -14,7 +20,6 @@ pong_Window.tracer(False) # 'tracing' shows the turtle's movement; if false, scr
 pong_Window.colormode(255) # so we can make the turtle green
 pong_Window.listen() # listen for keypress
 
-# ====== OBJECTS =======
 
 # left paddle
 paddle_L = turtle.Turtle() # every screen element is a new specific object of the Turtle() class
@@ -45,6 +50,15 @@ ball.goto(0,0) # safety check
 ball.dx = 0.1  # "speed" is update speed, delta[coordinate] is actual movement speed (in pixels)
 ball.dy = 0.1  # an appropriate number will depend on processing power, so adjust this until ball movement is comfortable
           # TODO: we could add a "difficulty" prompt at game launch that sets ball speed
+
+# score
+score_text = turtle.Turtle()
+score_text.speed(0)
+score_text.color("white")
+score_text.penup() # still need to do this even with a stationary obj because every turtle starts at 0,0
+score_text.hideturtle() # we don't want to see it, just what it types
+score_text.goto(0, 260)
+score_text.write("Player 1: {}    Player 2: {}".format(score_L, score_R), align="center", font=("Courier", 24, "normal"))
 
 # ====== FUNCTIONS =======
 
@@ -116,19 +130,24 @@ while True:
   if paddle_L.ycor() < -290:
     paddle_L.sety(-285)
 
-  # point checking. currently there's no score tracking, but we're not using an OR in case we want to add it
-  # off right side, point to left player
+  # point checking
+  # off right side, point to left player (1)
   if ball.xcor() > 390:
     ball.goto(0,0)
     ball.dx *= randomize_aim()
     ball.dy *= randomize_aim()
-    print(ball.dx, ball.dy)
-  # off left side, point to right player
+    score_L += 1
+    score_text.clear()
+    score_text.write("Player 1: {}    Player 2: {}".format(score_L, score_R), align="center", font=("Courier", 24, "normal"))
+
+  # off left side, point to right player (2)
   if ball.xcor() < -390:
     ball.goto(0,0)
     ball.dx *= randomize_aim()
     ball.dy *= randomize_aim()
-    print(ball.dx, ball.dy)
+    score_R += 1
+    score_text.clear()
+    score_text.write("Player 1: {}    Player 2: {}".format(score_L, score_R), align="center", font=("Courier", 24, "normal"))
 
   # paddle collision checking. paddles are 10 pixels wide and 50 pixels tall
   # hit right side paddle
