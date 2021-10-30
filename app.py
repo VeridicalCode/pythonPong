@@ -93,6 +93,11 @@ def randomize_aim():
   else:
     return -1
 
+# randomize ball angle
+def randomize_angle(i):
+  i *= random.randrange(5, 20)/10
+  return i
+
 # ====== KEYBINDS =======
 
 # left side
@@ -126,7 +131,7 @@ while True:
   if paddle_R.ycor() < -290:
     paddle_R.sety(-285)
   if paddle_L.ycor() > 290:
-    paddle_L.sety(285) # just push it down a little
+    paddle_L.sety(285) # again, a little push for safety
   if paddle_L.ycor() < -290:
     paddle_L.sety(-285)
 
@@ -154,7 +159,9 @@ while True:
   if ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() <= paddle_R.ycor() + 40 and ball.ycor() >= paddle_R.ycor() -40:
     ball.setx(340) # we check for < 350 and push ball left to avoid weird behavior between paddle and edge
     ball.dx *= -1
+    ball.dy = randomize_angle(ball.dy)
   # hit left side paddle
   if ball.xcor() < -340 and ball.xcor() > -350 and ball.ycor() <= paddle_L.ycor() + 40 and ball.ycor() >= paddle_L.ycor() -40:
     ball.setx(-340)
     ball.dx *= -1
+    ball.dy = randomize_angle(ball.dy)
