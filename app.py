@@ -60,6 +60,15 @@ score_text.hideturtle() # we don't want to see it, just what it types
 score_text.goto(0, 260)
 score_text.write("Player 1: {}    Player 2: {}".format(score_L, score_R), align="center", font=("Courier", 24, "normal"))
 
+# debugging
+err_text = turtle.Turtle()
+err_text.speed(0)
+err_text.color("white")
+err_text.penup()
+err_text.hideturtle()
+err_text.goto(0, -260)
+# err_text.write("dx: {} dy: {}".format(ball.dx, ball.dy), align="center", font=("arial", 10, "normal" ))
+
 # ====== FUNCTIONS =======
 
 # left paddle up
@@ -95,7 +104,20 @@ def randomize_aim():
 
 # randomize ball angle
 def randomize_angle(i):
-  i *= random.randrange(5, 20)/10
+  i *= random.randint(5, 20)/10
+
+  # safety check, don't let it go past 2x or 1/2x of base movement
+  if i > 0: # currently travelling up
+    if i > (ball_delta * 2):
+      i = ball_delta * 2
+    if i < (ball_delta / 2):
+      i = ball_delta / 2
+  if i < 0: # currently travelling down
+    if abs(i) > (ball_delta * 2):
+      i = ball_delta * -2
+    if abs(i) < (ball_delta / 2):
+      i = ball_delta / -2
+
   return i
 
 # ====== KEYBINDS =======
@@ -112,6 +134,9 @@ pong_Window.onkeypress(paddle_R_down, "Down")
 
 while True:
   pong_Window.update() # we set tracer false so we do manual updates
+
+#  err_text.clear()
+#  err_text.write("dx: {} dy: {}".format(ball.dx, ball.dy), align="center", font=("arial", 10, "normal" ))
 
   # ball movement
   ball.setx(ball.xcor() + ball.dx)
